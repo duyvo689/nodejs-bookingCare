@@ -14,7 +14,10 @@ module.exports = {
       type: {
         type: Sequelize.STRING,
       },
-      value: {
+      valueEn: {
+        type: Sequelize.STRING,
+      },
+      valueVi: {
         type: Sequelize.STRING,
       },
       createdAt: {
