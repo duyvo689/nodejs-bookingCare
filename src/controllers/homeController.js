@@ -1,5 +1,6 @@
 
 import db from "../models/index"
+import CRUDservice from "../services/CRUDservice"
 let getHomePage = async (req, res) => {
     try {
         let data = await db.User.findAll()
@@ -15,8 +16,9 @@ let getCRUD = (req, res) => {
     return res.render('crud.ejs')
 }
 
-let postCRUD = (req, res) => {
-    console.log(req.body)
+let postCRUD = async (req, res) => {
+    let mess = await CRUDservice.createNewUser(req.body)
+    console.log(mess)
     return res.send('from post-crud')
 }
 
