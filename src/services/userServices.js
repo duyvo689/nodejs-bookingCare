@@ -18,7 +18,7 @@ let handleUserLogin = (email, password) => {
                     let checkPassword = await bcrypt.compareSync(password, user.password)
                     if (checkPassword) {
                         userData.errCode = 0
-                        userData.errMessage = 'ok'
+                        userData.errMessage = ''
 
                         delete user.password // xoá property password khi trả về người dùng
                         userData.user = user
