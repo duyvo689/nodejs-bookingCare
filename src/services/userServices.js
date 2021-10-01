@@ -141,8 +141,69 @@ let hashUserPassword = (password) => {
 
 }
 
+let deleteUser = (userId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let user = await db.User.findOne({
+                where: { id: userId }
+            })
+
+            if (user) {
+                await db.User.destroy({
+                    where: { id: userId }
+                })
+            }
+            else {
+                resolve({
+                    errCode: 2,
+                    errMessage: "không tìm thấy người dùng!!"
+                })
+            }
+
+            resolve({
+                errCode: 0,
+                message: "Đã xoá!!"
+            })
+
+        }
+        catch (e) {
+
+        }
+    })
+}
+
+// let editUser = (data) => {
+//     return new Promise((resolve, reject) => {
+//         try {
+//             let user = await db.User.findOne({
+//                 where: { id: data.id }
+//             })
+
+//             if (user) {
+//                 email = data.email
+//                 firstName = data.firstName
+//                 lastName = data.lastName
+//                 address = data.address
+
+//                 await user.save()
+//                 let allUsers = await db.User.findAll()
+//                 resolve(allUsers)
+//             }
+//             else {
+//                 resolve()
+//             }
+
+//         }
+//         catch (e) {
+//             reject(e)
+//         }
+//     })
+// }
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
+    deleteUser: deleteUser,
+    // editUser: editUser,
 }
