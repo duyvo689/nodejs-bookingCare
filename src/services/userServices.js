@@ -172,38 +172,52 @@ let deleteUser = (userId) => {
     })
 }
 
-// let editUser = (data) => {
-//     return new Promise((resolve, reject) => {
-//         try {
-//             let user = await db.User.findOne({
-//                 where: { id: data.id }
-//             })
+let editUser = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
 
-//             if (user) {
-//                 email = data.email
-//                 firstName = data.firstName
-//                 lastName = data.lastName
-//                 address = data.address
+            if (!data.id) {
+                resolve({
+                    errCode: 2,
+                    errCode: "Thiếu tham số cần thiết!!"
+                })
 
-//                 await user.save()
-//                 let allUsers = await db.User.findAll()
-//                 resolve(allUsers)
-//             }
-//             else {
-//                 resolve()
-//             }
+            }
+            let user = await db.User.findOne({
+                where: { id: data.id },
+                raw: false
+            })
 
-//         }
-//         catch (e) {
-//             reject(e)
-//         }
-//     })
-// }
+            if (user) {
+                user.firstName = data.firstName;
+                user.lastName = data.lastName;
+                user.address = data.address;
+
+                await user.save()
+
+                resolve({
+                    errCode: 0,
+                    message: "Đã sửa thành công!!"
+                })
+            }
+            else {
+                resolve({
+                    errCode: 1,
+                    errCode: "Không thành công!!"
+                })
+            }
+
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+}
 
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     deleteUser: deleteUser,
-    // editUser: editUser,
+    editUser: editUser,
 }

@@ -58,28 +58,16 @@ let handleDeleteUser = async (req, res) => {
     return res.status(200).json(message)
 }
 
-// let handleEditUser = async (req, res) => {
-//     let userId = await req.query.id
-//     if (userId) {
-//         let userData = await userServices.editUser(userId)
-//         return res.status(200).json({
-//             errCode: 0,
-//             message: 'OK',
-//             user: userData
-//         }
-//         )
-//     } else {
-//         return res.status(300).json({
-//             errCode: 1,
-//             message: 'Không tìm thấy id'
-//         })
-//     }
-// }
+let handleEditUser = async (req, res) => {
+    let data = req.body
+    let message = await userServices.editUser(data)
+    return res.status(200).json(message)
+}
 
 module.exports = {
     handleLogin: handleLogin,
     handleGetAllUsers: handleGetAllUsers,
     handleCreateNewUser: handleCreateNewUser,
     handleDeleteUser: handleDeleteUser,
-    // handleEditUser: handleEditUser,
+    handleEditUser: handleEditUser,
 }
