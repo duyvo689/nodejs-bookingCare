@@ -8,7 +8,7 @@ let handleLogin = async (req, res) => {
     if (!email || !password) {
         return res.status(500).json({
             errCode: 1,
-            message: 'Missing inputs paramer!!'
+            errMessage: 'Missing inputs paramer!!'
         })
     }
 
@@ -16,7 +16,7 @@ let handleLogin = async (req, res) => {
 
     return res.status(200).json({
         errCode: userData.errCode,
-        message: userData.errMessage,
+        errMessage: userData.errMessage,
         user: userData.user ? userData.user : {}
     })
 }
@@ -64,10 +64,25 @@ let handleEditUser = async (req, res) => {
     return res.status(200).json(message)
 }
 
+let getAllCode = async (req, res) => {
+    try {
+        let data = await userServices.getAllCodeServices(req.query.type)
+        return res.status(200).json(data)
+    }
+    catch (e) {
+        console.log("from getallcodes: ", e)
+        return res.status(200).json({
+            errCode: -1,
+            errMessage: "Lỗi từ servser"
+        })
+    }
+}
+
 module.exports = {
     handleLogin: handleLogin,
     handleGetAllUsers: handleGetAllUsers,
     handleCreateNewUser: handleCreateNewUser,
     handleDeleteUser: handleDeleteUser,
     handleEditUser: handleEditUser,
+    getAllCode: getAllCode,
 }

@@ -1,6 +1,5 @@
 import db from "../models/index"
 import bcrypt from 'bcryptjs'
-import { raw } from "body-parser"
 
 const salt = bcrypt.genSaltSync(10); //salt hash password của thư viện bcrypt
 
@@ -21,14 +20,14 @@ let handleUserLogin = (email, password) => {
                     let checkPassword = await bcrypt.compareSync(password, user.password)
                     if (checkPassword) {
                         userData.errCode = 0
-                        userData.errMessage = ''
+                        userData.errMessage = 'Đăng nhập thành công'
 
                         delete user.password // xoá property password khi trả về người dùng
                         userData.user = user
                     }
                     else {
                         userData.errCode = 3
-                        userData.errMessage = 'Wrong password!!'
+                        userData.errMessage = 'Sai mật khẩu!!'
                     }
                 }
                 else {
@@ -38,7 +37,7 @@ let handleUserLogin = (email, password) => {
             }
             else {
                 userData.errCode = 1
-                userData.errMessage = `Your's Email isn't exist in your system`
+                userData.errMessage = 'Email không tồn tại trong hệ thống!!'
             }
             resolve(userData)
         }
@@ -101,20 +100,21 @@ let createNewUser = async (data) => {
             if (checkEmail === true) {
                 resolve({
                     errCode: 1,
-                    message: 'Email đã tồn tại'
+                    errMessage: 'Email đã tồn tại'
+                })
+            } else {
+                let hashPassword = await hashUserPassword(data.password)
+                await db.User.create({
+                    email: data.email,
+                    password: hashPassword,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    address: data.address,
+                    phoneNumber: data.phoneNumber,
+                    gender: data.gender == 1 ? true : false,
+                    roleId: data.roleId,
                 })
             }
-            let hashPassword = await hashUserPassword(data.password)
-            await db.User.create({
-                email: data.email,
-                password: hashPassword,
-                firstName: data.firstName,
-                lastName: data.lastName,
-                address: data.address,
-                phoneNumber: data.phoneNumber,
-                gender: data.gender == 1 ? true : false,
-                roleId: data.roleId,
-            })
             resolve({
                 errCode: 0,
                 message: 'OK'
@@ -214,10 +214,36 @@ let editUser = (data) => {
     })
 }
 
+let getAllCodeServices = (typeInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!typeInput) {
+                resolve({
+                    errCode: 1,
+                    errMessage: "Thiếu tham số cần thiết"
+                })
+            }
+            else {
+                let res = {}
+                let allCode = await db.allCode.findAll({
+                    where: { type: typeInput }
+                })
+                res.errCode = 0
+                res.data = allCode
+                resolve(res)
+            }
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     handleUserLogin: handleUserLogin,
     getAllUsers: getAllUsers,
     createNewUser: createNewUser,
     deleteUser: deleteUser,
     editUser: editUser,
+    getAllCodeServices: getAllCodeServices,
 }
