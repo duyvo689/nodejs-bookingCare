@@ -114,6 +114,7 @@ let createNewUser = async (data) => {
                     gender: data.gender,
                     roleId: data.roleId,
                     positionId: data.positionId,
+                    image: data.avatar,
                 })
             }
             resolve({
