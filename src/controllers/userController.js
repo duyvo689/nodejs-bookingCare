@@ -1,4 +1,3 @@
-import { query } from 'express'
 import userServices from '../services/userServices'
 
 let handleLogin = async (req, res) => {
