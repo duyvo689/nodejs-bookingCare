@@ -7,7 +7,7 @@ let getTopDoctorHomeServices = (limitInput) => {
                 limit: limitInput,
                 order: [['createdAt', 'DESC']],
                 attributes: {
-                    exclude: ['password', 'image']
+                    exclude: ['password']
                 },
                 include: [
                     { model: db.allCode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
