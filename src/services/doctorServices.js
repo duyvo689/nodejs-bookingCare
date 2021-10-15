@@ -46,8 +46,34 @@ let getAllDoctorServices = () => {
     })
 }
 
+let saveDetailInfoDoctorServices = (inputData) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown) {
+                resolve({
+                    errCode: -1,
+                    errMessage: 'Thiếu thông số cần thiết'
+                })
+            } else {
+                await db.Markdown.create({
+                    contentHTML: inputData.contentHTML,
+                    contentMarkdown: inputData.contentMarkdown,
+                    description: inputData.description,
+                    doctorId: inputData.doctorId,
+                })
+                resolve({
+                    errCode: 0,
+                    errMessage: 'Đã lưu thành công'
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
 
 module.exports = {
     getTopDoctorHomeServices: getTopDoctorHomeServices,
-    getAllDoctorServices: getAllDoctorServices
+    getAllDoctorServices: getAllDoctorServices,
+    saveDetailInfoDoctorServices,
 }
