@@ -16,6 +16,21 @@ let getTopDoctorHome = async (req, res) => {
     }
 }
 
+let getAllDoctors = async (req, res) => {
+    try {
+        let doctors = await doctorServices.getAllDoctorServices()
+        return res.status(200).json(doctors)
+    }
+    catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: -1,
+            message: "Lỗi từ server"
+        })
+    }
+}
+
 module.exports = {
-    getTopDoctorHome: getTopDoctorHome
+    getTopDoctorHome: getTopDoctorHome,
+    getAllDoctors: getAllDoctors
 }
