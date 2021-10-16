@@ -44,7 +44,30 @@ let postInfoDoctors = async (req, res) => {
     }
 }
 
+let allInfoDetailDoctor = async (req, res) => {
+    try {
+        if (!req.query.id) {
+            return res.status(200).json({
+                errCode: 1,
+                errMessage: "Thiếu thông số cần thiết!!"
+            })
+        } else {
+            let response = await doctorServices.allInfoDetailDoctorServices(req.query.id)
+            return res.status(200).json(response)
+        }
+    }
+    catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: -1,
+            message: "Lỗi từ server"
+        })
+    }
+}
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
-    getAllDoctors: getAllDoctors, postInfoDoctors,
+    getAllDoctors: getAllDoctors,
+    postInfoDoctors: postInfoDoctors,
+    allInfoDetailDoctor: allInfoDetailDoctor,
 }

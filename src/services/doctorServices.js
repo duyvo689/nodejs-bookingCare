@@ -72,8 +72,34 @@ let saveDetailInfoDoctorServices = (inputData) => {
     })
 }
 
+let allInfoDetailDoctorServices = (inputId) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let dataInfo = await db.User.findOne({
+                where: { id: inputId },
+                attributes: {
+                    exclude: ['password', 'image']
+                },
+                include: [
+                    { model: db.allCode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
+                    { model: db.Markdown, attributes: ['contentHTML', 'contentMarkdown', 'description', 'doctorId'] }
+                ],
+                raw: true,
+                nest: true
+            })
+            resolve({
+                errCode: 0,
+                data: dataInfo
+            })
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     getTopDoctorHomeServices: getTopDoctorHomeServices,
     getAllDoctorServices: getAllDoctorServices,
-    saveDetailInfoDoctorServices,
+    saveDetailInfoDoctorServices: saveDetailInfoDoctorServices,
+    allInfoDetailDoctorServices: allInfoDetailDoctorServices,
 }
