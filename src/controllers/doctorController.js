@@ -32,8 +32,8 @@ let getAllDoctors = async (req, res) => {
 
 let postInfoDoctors = async (req, res) => {
     try {
-        let response = await doctorServices.saveDetailInfoDoctorServices(req.body)
-        return res.status(200).json(response)
+        let response = await doctorServices.saveDetailInfoDoctorServices(req.data)
+        return res.status(200).json(doctors)
     }
     catch (e) {
         console.log(e)
@@ -55,8 +55,7 @@ let allInfoDetailDoctor = async (req, res) => {
             let response = await doctorServices.allInfoDetailDoctorServices(req.query.id)
             return res.status(200).json(response)
         }
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e)
         return res.status(200).json({
             errCode: -1,
@@ -69,5 +68,5 @@ module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
     postInfoDoctors: postInfoDoctors,
-    allInfoDetailDoctor: allInfoDetailDoctor,
+    allInfoDetailDoctor: allInfoDetailDoctor
 }
