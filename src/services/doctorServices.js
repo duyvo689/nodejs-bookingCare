@@ -1,3 +1,4 @@
+import { response } from "express"
 import db from "../models/index"
 
 let getTopDoctorHomeServices = (limitInput) => {
@@ -13,7 +14,7 @@ let getTopDoctorHomeServices = (limitInput) => {
                     { model: db.allCode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
                     { model: db.allCode, as: 'genderData', attributes: ['valueEn', 'valueVi'] }
                 ],
-                raw: true,
+                raw: false,
                 nest: true
             })
             resolve({
@@ -78,13 +79,13 @@ let allInfoDetailDoctorServices = (inputId) => {
             let dataInfo = await db.User.findOne({
                 where: { id: inputId },
                 attributes: {
-                    exclude: ['password', 'image']
+                    exclude: ['password']
                 },
                 include: [
                     { model: db.allCode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
                     { model: db.Markdown, attributes: ['contentHTML', 'contentMarkdown', 'description', 'doctorId'] }
                 ],
-                raw: true,
+                raw: false,
                 nest: true
             })
             resolve({
