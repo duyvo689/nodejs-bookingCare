@@ -64,9 +64,25 @@ let allInfoDetailDoctor = async (req, res) => {
     }
 }
 
+let bulkCreateSchedule = async (req, res) => {
+    try {
+        let infor = await doctorServices.bulkCreateScheduleServices(req.body)
+        return res.status(200).json(infor)
+
+    } catch (e) {
+        console.log(e)
+        return res.status(200).json({
+            errCode: -1,
+            message: "Lỗi từ server"
+        })
+    }
+}
+
+
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
     postInfoDoctors: postInfoDoctors,
-    allInfoDetailDoctor: allInfoDetailDoctor
+    allInfoDetailDoctor: allInfoDetailDoctor,
+    bulkCreateSchedule: bulkCreateSchedule,
 }
