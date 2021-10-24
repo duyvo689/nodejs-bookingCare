@@ -177,6 +177,11 @@ let getScheduleByDateServices = (doctorId, date) => {
                         doctorId: doctorId,
                         date: date
                     },
+                    include: [
+                        { model: db.allCode, as: 'timeTypeData', attributes: ['valueEn', 'valueVi'] },
+                    ],
+                    raw: false,
+                    nest: true
 
                 })
                 if (!dataSchedule) dataSchedule = []

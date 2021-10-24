@@ -10,7 +10,8 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       //Xác lập mỗi quan hệ với các bảng
       allCode.hasMany(models.User, { foreignKey: 'positionId', as: 'positionData' }),
-        allCode.hasMany(models.User, { foreignKey: 'gender', as: 'genderData' })
+        allCode.hasMany(models.User, { foreignKey: 'gender', as: 'genderData' }),
+        allCode.hasMany(models.Schedule, { foreignKey: 'timeType', as: 'timeTypeData' })
     }
   }
   allCode.init(
