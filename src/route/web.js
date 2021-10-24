@@ -28,6 +28,7 @@ let webRouters = (app) => {
     router.post('/api/save-info-doctors', doctorController.postInfoDoctors)
     router.get('/api/get-all-info-detail-doctors', doctorController.allInfoDetailDoctor)
     router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
+    router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
 
 
     return app.use("/", router)

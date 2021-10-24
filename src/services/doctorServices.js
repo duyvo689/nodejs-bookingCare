@@ -161,10 +161,42 @@ let bulkCreateScheduleServices = (data) => {
     })
 }
 
+
+let getScheduleByDateServices = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) {
+                resolve({
+                    errCode: 1,
+                    errMessage: 'Thiếu thông số cần thiết'
+                })
+            }
+            else {
+                let dataSchedule = await db.Schedule.findAll({
+                    where: {
+                        doctorId: doctorId,
+                        date: date
+                    },
+
+                })
+                if (!dataSchedule) dataSchedule = []
+
+                resolve({
+                    errCode: 0,
+                    data: dataSchedule
+                })
+            }
+        } catch (e) {
+            reject(e)
+        }
+    })
+}
+
 module.exports = {
     getTopDoctorHomeServices: getTopDoctorHomeServices,
     getAllDoctorServices: getAllDoctorServices,
     saveDetailInfoDoctorServices: saveDetailInfoDoctorServices,
     allInfoDetailDoctorServices: allInfoDetailDoctorServices,
     bulkCreateScheduleServices: bulkCreateScheduleServices,
+    getScheduleByDateServices: getScheduleByDateServices,
 }
