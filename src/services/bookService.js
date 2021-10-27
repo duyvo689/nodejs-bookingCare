@@ -32,6 +32,7 @@ let createOneBooksServices = (inputData) => {
                 })
             } else {
                 await db.HandBook.create({
+                    image: inputData.avatar,
                     nameBook: inputData.nameBook,
                     contentHTML: inputData.contentHTML,
                     contentMarkdown: inputData.contentMarkdown,

@@ -15,6 +15,9 @@ module.exports = {
             nameBook: {
                 type: Sequelize.STRING,
             },
+            image: {
+                type: Sequelize.BLOB('long'),
+            },
             contentMarkdown: {
                 allowNull: false,
                 type: Sequelize.TEXT('long'),
