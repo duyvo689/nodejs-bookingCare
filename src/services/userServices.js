@@ -9,11 +9,12 @@ let handleUserLogin = (email, password) => {
         try {
             let userData = {}
             let isExist = await checkUserEmail(email)
-            if (isExist) {
+            if (isExist) {//kiem tra co nguoi dung
                 let user = await db.User.findOne({
-                    attributes: ['email', 'roleId', 'password'],
-                    where: { email: email },
-                    raw: true
+                    attributes: ['email', 'roleId', 'password'], //gồm 3 trường email roleId và password
+                    where: { email: email },//so sánh email
+                    raw: true,
+                    delete: 'password', //không trả về password phòng ngừa bị hack
                 })
                 if (user) {
                     // so sánh password ng dùng truyền lên và từ DB (giải hash), thư viện bcryptjs làm
@@ -35,7 +36,7 @@ let handleUserLogin = (email, password) => {
                     userData.errMessage = 'User not found!!'
                 }
             }
-            else {
+            else { //neu khong ton tai nguoi dung
                 userData.errCode = 1
                 userData.errMessage = 'Email không tồn tại trong hệ thống!!'
             }
@@ -46,21 +47,20 @@ let handleUserLogin = (email, password) => {
         }
     })
 }
-
+//kiểm tra email của người dùng
 let checkUserEmail = (userEmail) => {
     return new Promise(async (resolve, reject) => {
         try {
             let user = await db.User.findOne({
-                where: { email: userEmail }
+                where: { email: userEmail } //kiem tra
             })
             if (user) {
-                resolve(true)
+                resolve(true);
             }
-            else { resolve(false) }
+            else { resolve(false); }
         }
         catch (e) {
-            reject(e
-            )
+            reject(e);
         }
     })
 }
