@@ -54,18 +54,75 @@ let getAllDoctorServices = () => {
 let saveDetailInfoDoctorServices = (inputData) => {
     return new Promise(async (resolve, reject) => {
         try {
-            if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown) {
+            //validate - cần truyền đủ tham số
+            if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown
+                || !inputData.action || !inputData.selectedPrice || !inputData.selectedPayment
+                || !inputData.selectedProvince || !inputData.nameClinic
+                || !inputData.note) {
                 resolve({
                     errCode: -1,
                     errMessage: 'Thiếu thông số cần thiết'
                 })
             } else {
-                await db.Markdown.create({
-                    contentHTML: inputData.contentHTML,
-                    contentMarkdown: inputData.contentMarkdown,
-                    description: inputData.description,
-                    doctorId: inputData.doctorId,
+                //Update hoặc insert vào markdown
+                if (inputData.action === 'CREATE') {
+                    await db.Markdown.create({
+                        contentHTML: inputData.contentHTML,
+                        contentMarkdown: inputData.contentMarkdown,
+                        description: inputData.description,
+                        doctorId: inputData.doctorId,
+                    })
+                } else if (inputData.action === 'EDIT') {
+                    let doctorMarkdown = await db.Markdown.findOne({
+                        where: { doctorId: inputData.doctorId },
+                        raw: false
+                    })
+
+                    if (doctorMarkdown) //nếu tìm thấy doctorMarkdown thì thực hiện ghi đè dữ liệu mới
+                    {
+                        doctorMarkdown.contentHTML = inputData.contentHTML,
+                            doctorMarkdown.contentMarkdown = inputData.contentMarkdown,
+                            doctorMarkdown.description = inputData.description,
+                            doctorMarkdown.updateAt = new Date();
+                        await doctorMarkdown.save();
+                    }
+
+                }
+                //Update hoặc insert vào Doctor_infor
+                let doctorInfor = await db.Doctor_Infor.findOne({
+                    where: {
+                        doctorId: inputData.doctorId
+                    },
+                    raw: false
                 })
+                // inputData.selectedPrice || !inputData.selectedPayment
+                // || !inputData.selectedProvince || !inputData.nameClinic
+                //  || !inputData.note
+                if (doctorInfor) {
+                    //nếu có trong db thì thao tác này là update
+                    doctorInfor.priceId = inputData.selectedPrice;
+                    doctorInfor.provinceId = inputData.selectedProvince;
+                    doctorInfor.paymentId = inputData.selectedPayment;
+                    doctorInfor.nameClinic = inputData.nameClinic;
+                    doctorInfor.addressClinic = inputData.addressClinic;
+                    doctorInfor.note = inputData.note;
+                    doctorInfor.doctorId = inputData.doctorId;
+                    await doctorInfor.save();
+
+
+                }
+                else {
+                    //nếu không có trong db thì thao tác này là create
+                    await db.Doctor_Infor.create({
+                        priceId: inputData.selectedPrice,
+                        provinceId: inputData.selectedProvince,
+                        paymentId: inputData.selectedPayment,
+                        nameClinic: inputData.nameClinic,
+                        addressClinic: inputData.addressClinic,
+                        note: inputData.note,
+                        doctorId: inputData.doctorId,
+                    })
+                }
                 resolve({
                     errCode: 0,
                     errMessage: 'Đã lưu thành công'
