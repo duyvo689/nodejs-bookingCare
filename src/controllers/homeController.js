@@ -13,13 +13,13 @@ let getHomePage = async (req, res) => {
 
 }
 let getCRUD = (req, res) => {
-    return res.render('crud.ejs')
+    return res.render('crud.ejs')//render file giao diện nhập dữ liệu
 }
 
 let postCRUD = async (req, res) => {
     let mess = await CRUDservice.createNewUser(req.body)
     console.log(mess)
-    return res.send('from post-crud')
+    return res.send('Đã thêm user')
 }
 
 let displayGetCRUD = async (req, res) => {
@@ -27,20 +27,20 @@ let displayGetCRUD = async (req, res) => {
     return res.render('displayCrud.ejs', {
         dataTable: data
     })
-}
+}// gán biến dataTable cho data + render file giao diện getCRUD
 
 let getEditCRUD = async (req, res) => {
     let userId = req.query.id
     if (userId) {
-        let userData = await CRUDservice.getUserInfoById(userId)
+        let userData = await CRUDservice.getUserInfoById(userId)//nếu tồn tại userId thì trả về thông tin của user đó
         console.log(userData)
         // let userData
         return res.render('editCRUD.ejs', {
-            user: userData
+            user: userData// gán giá trị biến userData cho biến user
         })
     }
     else {
-        return res.send('User not found!!')
+        return res.send('Không tìm thấy user');
     }
 
 }
@@ -49,7 +49,7 @@ let putCRUD = async (req, res) => {
     let data = req.body
     let allUser = await CRUDservice.updateUserData(data)
     return res.render('displayCrud.ejs', {
-        dataTable: allUser
+        dataTable: allUser//gán biến allUsers bằng biến dataTable trong file getCRUD.ejs
     })
 }
 
@@ -57,9 +57,9 @@ let deleteCRUD = async (req, res) => {
     let id = req.query.id
     if (id) {
         await CRUDservice.deleteUserById(id)
-        return res.send('delete user done')
+        return res.send('Xóa user thành công')
     } else {
-        return res.send('user not found!!')
+        return res.send('Không tìm thấy user')
     }
 }
 module.exports = {
