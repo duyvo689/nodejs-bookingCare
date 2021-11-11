@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Doctor_Infor",
-            freezeTablename: true,//để sequilize không tự config lại tên table tránh khỏi bị lỗi sai tên
+            freezeTableName: true,//để sequilize không tự config lại tên table tránh khỏi bị lỗi sai tên
 
         }
     );

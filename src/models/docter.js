@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Docter",
-      freezeTablename: true,
+      freezeTableName: true, //tránh sequilize tự config lại tên bảng
     }
   );
   return Docter;

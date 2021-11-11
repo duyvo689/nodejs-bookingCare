@@ -1,7 +1,7 @@
 import { response } from "express"
 import db from "../models/index"
 require('dotenv').config()
-import _, { differenceWith } from 'lodash'
+import _, { differenceWith, reject } from 'lodash'
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE
 
@@ -26,7 +26,7 @@ let getTopDoctorHomeServices = (limitInput) => {
                 data: users
             })
         } catch (e) {
-            reject(e)
+            reject(e);
         }
     })
 }
@@ -129,7 +129,7 @@ let saveDetailInfoDoctorServices = (inputData) => {
                 })
             }
         } catch (e) {
-            reject(e)
+            reject(e);
         }
     })
 }
@@ -165,7 +165,7 @@ let allInfoDetailDoctorServices = (inputId) => {
                 data: dataInfo
             })
         } catch (e) {
-            reject(e)
+            reject(e);
         }
     })
 }
@@ -224,7 +224,7 @@ let bulkCreateScheduleServices = (data) => {
                 })
             }
         } catch (e) {
-            reject(e)
+            reject(e);
         }
     })
 }
@@ -260,11 +260,49 @@ let getScheduleByDateServices = (doctorId, date) => {
                 })
             }
         } catch (e) {
-            reject(e)
+            reject(e);
         }
     })
 }
+let getExtraInforDoctorById = (idInput) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!idInput) //nếu không truyền id
+            {
+                resolve({
+                    errCode: -1,
+                    errMessage: 'Thiếu thông số cần thiết'
+                })
+            } else {//nếu truyền id thì bắt đầu get thông tin doctor bằng id
+                let data = await db.Doctor_Infor.findOne({
+                    where: {
+                        doctorId: idInput
+                    },
 
+                    attributes: {
+                        exclude: ['id', 'doctorId']//2 trường id và doctorId không cần dùng nên exclude
+                    },
+                    include: [
+                        { model: db.allCode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.allCode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                        { model: db.allCode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+                    ],
+                    raw: false,
+                    nest: true
+                })
+                if (!data) { data = {}; } //nếu không có id thì truyền về mảng rỗng
+                resolve({
+                    errCode: 0,
+                    data: data
+                })
+            }
+
+        }
+        catch (e) {
+            reject(e);
+        }
+    })
+}
 module.exports = {
     getTopDoctorHomeServices: getTopDoctorHomeServices,
     getAllDoctorServices: getAllDoctorServices,
@@ -272,4 +310,5 @@ module.exports = {
     allInfoDetailDoctorServices: allInfoDetailDoctorServices,
     bulkCreateScheduleServices: bulkCreateScheduleServices,
     getScheduleByDateServices: getScheduleByDateServices,
+    getExtraInforDoctorById: getExtraInforDoctorById,
 }
