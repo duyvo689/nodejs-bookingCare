@@ -1,7 +1,7 @@
 import { response } from "express"
 import db from "../models/index"
 require('dotenv').config()
-import _, { differenceWith, reject } from 'lodash'
+import _, { differenceWith } from 'lodash'
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE
 
