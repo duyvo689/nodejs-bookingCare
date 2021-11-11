@@ -144,7 +144,18 @@ let allInfoDetailDoctorServices = (inputId) => {
                 },
                 include: [
                     { model: db.allCode, as: 'positionData', attributes: ['valueEn', 'valueVi'] },
-                    { model: db.Markdown, attributes: ['contentHTML', 'contentMarkdown', 'description', 'doctorId'] }
+                    { model: db.Markdown, attributes: ['contentHTML', 'contentMarkdown', 'description', 'doctorId'] },
+                    {
+                        model: db.Doctor_Infor, attributes: {
+                            exclude: ['id', 'doctorId']
+                        },
+                        include: [
+                            { model: db.allCode, as: 'priceTypeData', attributes: ['valueEn', 'valueVi'] },
+                            { model: db.allCode, as: 'provinceTypeData', attributes: ['valueEn', 'valueVi'] },
+                            { model: db.allCode, as: 'paymentTypeData', attributes: ['valueEn', 'valueVi'] },
+                        ]
+
+                    },
                 ],
                 raw: false,
                 nest: true
