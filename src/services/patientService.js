@@ -1,5 +1,6 @@
 import db from "../models/index"
 require('dotenv').config()
+import emailService from './emailService'
 const { reject } = require("lodash")
 
 let postBooking = (data) => {
@@ -10,7 +11,15 @@ let postBooking = (data) => {
                     errCode: -1,
                     errMessage: 'Thiếu thông số cần thiết'
                 })
-            } else {//update hoặc insert patient
+            } else {
+                //gửi email xác nhận bằng nodemailler
+                await emailService.sendSimpleEmail({
+                    receiverEmail: data.email,
+                    patientName: 'Nguyen Van A',
+                    time: '8:00 - 9:00 18/11/2021',
+                    doctorName: 'Nguyen Tran Nhon'
+                })
+                //update hoặc insert patient
                 let user = await db.User.findOrCreate({ //thực hiện tạo hoặc tìm user bằng email
                     where: { email: data.email },
                     defaults: { //nếu không có user thì thực hiện tạo user và gán role
