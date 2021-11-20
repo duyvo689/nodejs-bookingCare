@@ -6,7 +6,7 @@ const { reject } = require("lodash")
 let postBooking = (data) => {
     return new Promise(async (resolve, reject) => {
         try {//validate, nhập email
-            if (!data.email || !data.doctorId || !data.timeType || !data.date) {
+            if (!data.email || !data.doctorId || !data.timeType || !data.date || !data.fullName) {
                 resolve({
                     errCode: -1,
                     errMessage: 'Thiếu thông số cần thiết'
@@ -15,9 +15,10 @@ let postBooking = (data) => {
                 //gửi email xác nhận bằng nodemailler
                 await emailService.sendSimpleEmail({
                     receiverEmail: data.email,
-                    patientName: 'Nguyen Van A',
-                    time: '8:00 - 9:00 18/11/2021',
-                    doctorName: 'Nguyen Tran Nhon'
+                    patientName: data.fullName,
+                    time: data.timeString,
+                    doctorName: data.doctorName,
+
                 })
                 //update hoặc insert patient
                 let user = await db.User.findOrCreate({ //thực hiện tạo hoặc tìm user bằng email

@@ -30,15 +30,13 @@ let sendSimpleEmail = async (dataSend) => {
         <h3>Xin chào ${dataSend.patientName}!</h3>
         <p>Bạn đã thực hiện đặt lịch khám bệnh online thành công!</p>
         <div><b>Thời gian : ${dataSend.time}</b></div>
-        <div><b>Bác sĩ : ${dataSend.doctorName}</b></div>
-        <p>Nếu các thông tin trên là đúng, vui lòng click vào link dưới để hoàn tất thủ tục đặt lịch khám bệnh !</p>
-        <div>
-        <a href= 'https://www.youtube.com/watch?v=nF9g1825mwk'> Link ...</a>
+        <div><b>Bác sĩ : ${dataSend.doctorName}</b></div>        
         </div>
         
         `, // html body
     });
 }
+
 module.exports = {
     sendSimpleEmail: sendSimpleEmail,
 }
