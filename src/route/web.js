@@ -36,6 +36,8 @@ let webRouters = (app) => {
     router.get('/api/get-profile-doctor-by-id', doctorController.getProfileDoctorById)
     router.post('/api/patient-booking', patientController.postBooking)
     router.post('/api/create-new-specialty', specialtyController.createSpecialty)
+    router.get('/api/get-specialty', specialtyController.getAllSpecialty)
+
 
     router.get('/api/get-all-books', bookController.getAllBooks)
     router.post('/api/create-one-handbook', bookController.createOneBooks)

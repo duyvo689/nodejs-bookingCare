@@ -27,6 +27,28 @@ let createSpecialty = (data) => {
         }
     })
 }
+let getAllSpecialty = () => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            let data = await db.Specialty.findAll();
+            if (data && data.length > 0) {
+                data.map(item => {
+                    item.image = new Buffer(item.image, 'base64').toString('binary');//convert ép kiểu dữ liệu để hiển thị ảnh (dạng BLOB-> binary)
+                })
+            }
+            resolve({
+                errCode: 0,
+                errMessage: 'Lấy thông tin chuyên khoa thành công',
+                data,
+            })
+        }
+        catch (e) {
+            reject(e);
+        }
+
+    })
+}
 module.exports = {
     createSpecialty: createSpecialty,
+    getAllSpecialty: getAllSpecialty,
 }
