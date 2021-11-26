@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Doctor_Infor.belongsTo(models.User, { foreignKey: 'doctorId' })
+            Doctor_Infor.belongsTo(models.allCode, { foreignKey: 'priceId', targetKey: 'keyMap', as: 'priceTypeData' })
+            Doctor_Infor.belongsTo(models.allCode, { foreignKey: 'provinceId', targetKey: 'keyMap', as: 'provinceTypeData' })
+            Doctor_Infor.belongsTo(models.allCode, { foreignKey: 'paymentId', targetKey: 'keyMap', as: 'paymentTypeData' })
         }
     }
     Doctor_Infor.init(
@@ -25,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
         {
             sequelize,
             modelName: "Doctor_Infor",
-            freezeTablename: true,//để sequilize không tự config lại tên table tránh khỏi bị lỗi sai tên
+            freezeTableName: true,//để sequilize không tự config lại tên table tránh khỏi bị lỗi sai tên
 
         }
     );

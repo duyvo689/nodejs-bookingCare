@@ -14,12 +14,14 @@ module.exports = (sequelize, DataTypes) => {
   Specialty.init(
     {
       name: DataTypes.STRING,
-      description: DataTypes.TEXT,
-      image: DataTypes.STRING,
+      descriptionHTML: DataTypes.TEXT,
+      descriptionMarkdown: DataTypes.TEXT,
+      image: DataTypes.TEXT,//STRING bị giới hạn kí tự nên chuyển sang TEXT
     },
     {
       sequelize,
       modelName: "Specialty",
+      freezeTableName: true,//để sequilize không tự config lại tên table tránh khỏi bị lỗi sai tên
     }
   );
   return Specialty;
