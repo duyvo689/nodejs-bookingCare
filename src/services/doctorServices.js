@@ -57,8 +57,8 @@ let saveDetailInfoDoctorServices = (inputData) => {
             //validate - cần truyền đủ tham số
             if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown
                 || !inputData.action || !inputData.selectedPrice || !inputData.selectedPayment
-                || !inputData.selectedProvince || !inputData.nameClinic
-                || !inputData.note) {
+                || !inputData.selectedProvince || !inputData.nameClinic || !inputData.addressClinic
+                || !inputData.note || !inputData.specialtyId) {
                 resolve({
                     errCode: -1,
                     errMessage: 'Thiếu thông số cần thiết'
@@ -107,6 +107,8 @@ let saveDetailInfoDoctorServices = (inputData) => {
                     doctorInfor.addressClinic = inputData.addressClinic;
                     doctorInfor.note = inputData.note;
                     doctorInfor.doctorId = inputData.doctorId;
+                    doctorInfor.specialtyId = inputData.specialtyId;
+                    doctorInfor.clinicId = inputData.clinicId;
                     await doctorInfor.save();
 
 
@@ -121,6 +123,8 @@ let saveDetailInfoDoctorServices = (inputData) => {
                         addressClinic: inputData.addressClinic,
                         note: inputData.note,
                         doctorId: inputData.doctorId,
+                        specialtyId: inputData.specialtyId,
+                        clinicId: inputData.clinicId,
                     })
                 }
                 resolve({
