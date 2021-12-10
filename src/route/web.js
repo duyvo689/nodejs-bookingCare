@@ -9,7 +9,8 @@ import clinicController from "../controllers/clinicController"
 let router = express.Router()
 
 let webRouters = (app) => {
-    // router.get('/', homeController.getHomePage)
+
+    router.get('/', homeController.getHomePage)
     router.get('/crud', homeController.getCRUD)
     router.post('/post-crud', homeController.postCRUD)
     router.get('/get-crud', homeController.displayGetCRUD)
