@@ -15,12 +15,14 @@ let sendSimpleEmail = async (dataSend) => {
         port: 587,
         secure: false, // true for 465, false for other ports
         auth: {
-            user: process.env.EMAIL_APP, // generated ethereal user
-            pass: process.env.EMAIL_APP_PASSWORD, // generated ethereal password
+            user: 'hanhgg78@gmail.com', // generated ethereal user
+            pass: 'aopqnknntywfvksv', // generated ethereal password
+            // user: process.env.EMAIL_APP, // generated ethereal user
+            // pass: process.env.EMAIL_APP_PASSWORD, 
         },
     });
 
-    // send mail with defined transport object
+    // send mail with defined transport object aopqnknntywfvksv
     let info = await transporter.sendMail({
         from: '"NguyenNhon "<nhonnguyen2192@gmail.com>', // sender address
         to: dataSend.receiverEmail, // list of receivers
