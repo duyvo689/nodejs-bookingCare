@@ -363,6 +363,47 @@ let getProfileDoctorById = (inputId) => {
     })
 
 }
+let getListPatient = (doctorId, date) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!doctorId || !date) //validate du lieu
+            {
+                resolve({
+                    errCode: -1,
+                    errMessage: 'Thiếu thông số cần thiết'
+                })
+            } else {
+                let data = await db.Booking.findAll({//tìm theo 3 trường doctorId, statusId, date
+                    where: {
+                        doctorId: doctorId,
+                        statusId: 'S1',
+                        date: date,
+                    },
+                    include: [
+                        {//add 4 trường dữ liệu email, firstName, address, gender vào patientData
+                            model: db.User, as: 'patientData',
+                            attributes: ['email', 'firstName', 'address', 'gender'],
+                            include: [ //dịch từ bảng allcode
+                                { model: db.allCode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },]
+                        },
+                    ],
+                    raw: false, //trả data dưới dạng object
+                    nest: true,
+                })
+                resolve({
+                    errCode: 0,
+                    errMessage: 'Lấy danh sách bệnh nhân của bác sĩ thành công!',
+                    data: data,
+                })
+            }
+
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+
+}
 module.exports = {
     getTopDoctorHomeServices: getTopDoctorHomeServices,
     getAllDoctorServices: getAllDoctorServices,
@@ -372,4 +413,5 @@ module.exports = {
     getScheduleByDateServices: getScheduleByDateServices,
     getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
+    getListPatient: getListPatient,
 }

@@ -26,14 +26,18 @@ let webRouters = (app) => {
     router.put('/api/edit-user', userController.handleEditUser)
 
     router.get('/api/allcode', userController.getAllCode)
+    //api cho bac si
     router.get('/api/top-doctor-home', doctorController.getTopDoctorHome)
     router.get('/api/get-all-doctors', doctorController.getAllDoctors)
     router.post('/api/save-info-doctors', doctorController.postInfoDoctors)
     router.get('/api/get-all-info-detail-doctors', doctorController.allInfoDetailDoctor)
     router.post('/api/bulk-create-schedule', doctorController.bulkCreateSchedule)
+
     router.get('/api/get-schedule-doctor-by-date', doctorController.getScheduleByDate)
     router.get('/api/get-extra-infor-doctor-by-id', doctorController.getExtraInforDoctorById)
     router.get('/api/get-profile-doctor-by-id', doctorController.getProfileDoctorById)
+    router.get('/api/get-list-patient', doctorController.getListPatient)
+    //api cho benh nhan
     router.post('/api/patient-booking', patientController.postBooking)
     //api chuyen khoa
     router.post('/api/create-new-specialty', specialtyController.createSpecialty)

@@ -25,7 +25,10 @@ let postBooking = (data) => {
                     where: { email: data.email },
                     defaults: { //nếu không có user thì thực hiện tạo user và gán role
                         email: data.email,
-                        roleId: 'R3' //gán role cho patient
+                        roleId: 'R3', //gán role cho patient
+                        gender: data.selectedGender,
+                        address: data.address,
+                        firstName: data.fullName,
                     }
                 });
                 console.log('thong tin user: ', user[0])//vì hàm findOrCreate trả về 1 mảng nên muốn lấy giá trị id của patient thì phải lấy phần tử 0
