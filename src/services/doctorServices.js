@@ -56,12 +56,16 @@ let saveDetailInfoDoctorServices = (inputData) => {
         try {
             //validate - cần truyền đủ tham số
             if (!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown
-                || !inputData.action || !inputData.selectedPrice || !inputData.selectedPayment
-                || !inputData.selectedProvince || !inputData.nameClinic || !inputData.addressClinic
-                || !inputData.note || !inputData.specialtyId) {
+                // || !inputData.action 
+                || !inputData.selectedPrice || !inputData.selectedPayment
+                // || !inputData.selectedProvince
+                || !inputData.nameClinic || !inputData.addressClinic
+                || !inputData.note
+                // || !inputData.specialtyId
+            ) {
                 resolve({
                     errCode: -1,
-                    errMessage: 'Thiếu thông số cần thiết'
+                    errMessage: 'Thiếu thông số cần thiết cuar doctor infor'
                 })
             } else {
                 //Update hoặc insert vào markdown

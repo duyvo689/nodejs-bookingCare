@@ -6,10 +6,12 @@ const { reject } = require("lodash")
 let postBooking = (data) => {
     return new Promise(async (resolve, reject) => {
         try {//validate, nhập email
-            if (!data.email || !data.doctorId || !data.timeType || !data.date || !data.fullName) {
+            if (!data.email
+                || !data.doctorId || !data.timeType || !data.date || !data.fullName
+            ) {
                 resolve({
                     errCode: -1,
-                    errMessage: 'Thiếu thông số cần thiết'
+                    errMessage: 'Thiếu thông số cần thiết in post booking'
                 })
             } else {
                 //gửi email xác nhận bằng nodemailler
