@@ -132,6 +132,19 @@ let getListPatient = async (req, res) => {
         })
     }
 }
+let sendRemedy = async (req, res) => {
+    try {
+        let infor = await doctorServices.sendRemedy(req.body);
+        return res.status(200).json(infor);
+
+    } catch (e) {
+        console.log(e);
+        return res.status(200).json({
+            errCode: -1,
+            message: "Lỗi từ server"
+        })
+    }
+}
 module.exports = {
     getTopDoctorHome: getTopDoctorHome,
     getAllDoctors: getAllDoctors,
@@ -142,5 +155,6 @@ module.exports = {
     getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
     getListPatient: getListPatient,
+    sendRemedy: sendRemedy,
 }
 

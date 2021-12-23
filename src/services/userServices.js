@@ -11,7 +11,7 @@ let handleUserLogin = (email, password) => {
             let isExist = await checkUserEmail(email)
             if (isExist) {//kiem tra co nguoi dung
                 let user = await db.User.findOne({
-                    attributes: ['email', 'roleId', 'password'], //gồm 3 trường email roleId và password
+                    attributes: ['id', 'email', 'roleId', 'password', 'firstName', 'lastName'], //trả về 5 trường này
                     where: { email: email },//so sánh email
                     raw: true,
                     delete: 'password', //không trả về password phòng ngừa bị hack
@@ -33,12 +33,12 @@ let handleUserLogin = (email, password) => {
                 }
                 else {
                     userData.errCode = 2
-                    userData.errMessage = 'User not found!!'
+                    userData.errMessage = 'Không tìm thấy user!'
                 }
             }
             else { //neu khong ton tai nguoi dung
                 userData.errCode = 1
-                userData.errMessage = 'Email không tồn tại trong hệ thống!!'
+                userData.errMessage = 'Email không tồn tại trong hệ thống!'
             }
             resolve(userData)
         }

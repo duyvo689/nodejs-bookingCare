@@ -390,6 +390,7 @@ let getListPatient = (doctorId, date) => {
                             include: [ //dịch từ bảng allcode
                                 { model: db.allCode, as: 'genderData', attributes: ['valueEn', 'valueVi'] },]
                         },
+                        { model: db.allCode, as: 'timeTypeDataPatient', attributes: ['valueEn', 'valueVi'] }
                     ],
                     raw: false, //trả data dưới dạng object
                     nest: true,
@@ -408,6 +409,46 @@ let getListPatient = (doctorId, date) => {
     })
 
 }
+let sendRemedy = (data) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            if (!data.email || !data.doctorId || !data.patientId || !data.timeType) //validate du lieu
+            {
+                resolve({
+                    errCode: -1,
+                    errMessage: 'Thiếu thông số cần thiết'
+                })
+            } else {
+                //update patient status
+                let appointment = await db.Booking.findOne({
+                    where: {
+                        doctorId: data.doctorId,
+                        patientId: data.patientId,
+                        timeType: data.timeType,
+                        statusId: 'S1'
+                    },
+                    raw: false, //để sequelize trả về class.
+                })
+                if (appointment) {
+                    appointment.statusId = 'S3'; //S3 la trang thai da kham xong
+                    await appointment.save();
+                }
+                //send email remedy
+                resolve({
+                    errCode: 0,
+                    errMessage: 'Cập nhật thông tin khám thành công!',
+                    data: data,
+                })
+            }
+
+        }
+        catch (e) {
+            reject(e)
+        }
+    })
+
+}
+
 module.exports = {
     getTopDoctorHomeServices: getTopDoctorHomeServices,
     getAllDoctorServices: getAllDoctorServices,
@@ -418,4 +459,5 @@ module.exports = {
     getExtraInforDoctorById: getExtraInforDoctorById,
     getProfileDoctorById: getProfileDoctorById,
     getListPatient: getListPatient,
+    sendRemedy: sendRemedy,
 }
