@@ -2,6 +2,7 @@ import { response } from "express"
 import db from "../models/index"
 require('dotenv').config()
 import _, { differenceWith, reject } from 'lodash'
+import emailService from '../services/emailService'
 
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULE
 
@@ -434,9 +435,10 @@ let sendRemedy = (data) => {
                     await appointment.save();
                 }
                 //send email remedy
+                await emailService.sendAttechment(data);
                 resolve({
                     errCode: 0,
-                    errMessage: 'Cập nhật thông tin khám thành công!',
+                    errMessage: 'Gửi lời cám ơn sau khi khám thành công!',
                     data: data,
                 })
             }
