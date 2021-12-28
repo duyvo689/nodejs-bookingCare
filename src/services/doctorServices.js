@@ -10,6 +10,9 @@ let getTopDoctorHomeServices = (limitInput) => {
     return new Promise(async (resolve, reject) => {
         try {
             let users = await db.User.findAll({
+                where: {
+                    roleId: 'R2'
+                },
                 limit: limitInput,
                 order: [['createdAt', 'DESC']],
                 attributes: {
@@ -100,9 +103,7 @@ let saveDetailInfoDoctorServices = (inputData) => {
                     },
                     raw: false
                 })
-                // inputData.selectedPrice || !inputData.selectedPayment
-                // || !inputData.selectedProvince || !inputData.nameClinic
-                //  || !inputData.note
+
                 if (doctorInfor) {
                     //nếu có trong db thì thao tác này là update
                     doctorInfor.priceId = inputData.selectedPrice;
@@ -434,7 +435,8 @@ let sendRemedy = (data) => {
                     appointment.statusId = 'S2'; //S2 la trang thai da kham xong
                     await appointment.save();
                 }
-                //send email remedy
+                //send email remedy             
+
                 await emailService.sendAttechment(data);
                 resolve({
                     errCode: 0,
