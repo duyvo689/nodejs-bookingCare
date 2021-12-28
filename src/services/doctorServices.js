@@ -405,7 +405,7 @@ let getListPatient = (doctorId, date) => {
 
         }
         catch (e) {
-            reject(e)
+            reject(e);
         }
     })
 
@@ -431,7 +431,7 @@ let sendRemedy = (data) => {
                     raw: false, //để sequelize trả về class.
                 })
                 if (appointment) {
-                    appointment.statusId = 'S3'; //S3 la trang thai da kham xong
+                    appointment.statusId = 'S2'; //S2 la trang thai da kham xong
                     await appointment.save();
                 }
                 //send email remedy
