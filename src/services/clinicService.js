@@ -62,7 +62,7 @@ let getInforClinicById = (inputId) => {
                     where: {
                         id: inputId,
                     },
-                    attributes: ['name', 'address', 'descriptionHTML', 'descriptionMarkdown'] //lấy 4 trường này để hiển thị thông tin về phong kham
+                    attributes: ['name', 'address', 'descriptionHTML', 'descriptionMarkdown', 'image'] //lấy 5 trường này để hiển thị thông tin về phong kham
                 })
                 if (data) {
                     let doctorClinic = [];
