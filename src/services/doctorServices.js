@@ -42,7 +42,8 @@ let getAllDoctorServices = () => {
             let doctors = await db.User.findAll({
                 where: { roleId: 'R2' },
                 attributes: {
-                    exclude: ['password', 'image']
+                    exclude: ['password']
+                    // exclude: ['password', 'image']
                 },
             })
             resolve({
@@ -64,7 +65,6 @@ let saveDetailInfoDoctorServices = (inputData) => {
                 || !inputData.selectedPrice || !inputData.selectedPayment
                 // || !inputData.selectedProvince
                 || !inputData.nameClinic || !inputData.addressClinic
-                || !inputData.note
                 // || !inputData.specialtyId
             ) {
                 resolve({
