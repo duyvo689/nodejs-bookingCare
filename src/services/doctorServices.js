@@ -435,8 +435,16 @@ let sendRemedy = (data) => {
                     appointment.statusId = 'S2'; //S2 la trang thai da kham xong
                     await appointment.save();
                 }
-                //send email remedy             
-
+                //gui email cam on            
+                let user = await db.User.findOne({ //lấy tên bệnh nhân trong bảng user thông qua patiendId
+                    where: {
+                        id: data.patientId,
+                    },
+                    raw: false,
+                })
+                if (user) {
+                    data.patientName = user.lastName;
+                }
                 await emailService.sendAttechment(data);
                 resolve({
                     errCode: 0,
