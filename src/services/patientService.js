@@ -31,6 +31,7 @@ let postBooking = (data) => {
                         gender: data.selectedGender,
                         address: data.address,
                         firstName: data.fullName,
+                        lastName: data.fullName,
                     }
                 });
                 console.log('thong tin user: ', user[0])//vì hàm findOrCreate trả về 1 mảng nên muốn lấy giá trị id của patient thì phải lấy phần tử 0
