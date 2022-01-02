@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": null,
-    "database": "docter-care",
+    "database": "doctor-care",
     "host": "127.0.0.1",
     "dialect": "mysql",
     "logging": false,
@@ -26,4 +26,3 @@
     "dialect": "mysql"
   }
 }
-
