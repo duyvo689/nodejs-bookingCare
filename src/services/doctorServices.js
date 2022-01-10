@@ -171,7 +171,7 @@ let allInfoDetailDoctorServices = (inputId) => {
                 nest: true
             })
             if (dataInfo && dataInfo.image) {
-                dataInfo.image = new Buffer(dataInfo.image, 'base64').toString('binary');//convert dữ liệu ảnh để up lên
+                dataInfo.image = Buffer.from(dataInfo.image, 'base64').toString('binary');//convert dữ liệu ảnh để up lên
             }
             if (!dataInfo) { dataInfo = {}; } //nếu không có id thì truyền về mảng rỗng
             resolve({
